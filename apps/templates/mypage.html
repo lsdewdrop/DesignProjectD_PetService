@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+
+
+		<title>마이페이지</title>
+
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+		<script type="text/javascript" src="./static/js/mypage.js" charset="UTF-8"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.js"></script>
+        <link href="http://bootstrapk.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+        <link href="http://bootstrapk.com/examples/theme/theme.css" rel="stylesheet">
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    	<style>
+        	body {
+        	    padding-top:30px;
+        	    background-image: url("http://cfile22.uf.tistory.com/image/1356B90B49C3C24242136D");
+        	    background-repeat: no-repeat;
+                background-size: cover;
+        	 }
+			#title
+			{
+				margin-bottom:30px;
+				text-align:center;
+				padding-left:35%;
+				padding-right:35%;
+				color:black;
+			}
+			#navigation
+			{
+			    align:right;
+			    margin-bottom:90px;
+			}
+			#contents{
+
+                margin-right: 30px;
+                width: 260px;
+                height: auto;
+                float: left;
+            }
+			#picture_mini_profile
+            {
+                margin-bottom: 50px;
+            }
+            #picture{
+                background-image: url("http://tr3.cbsistatic.com/fly/308-fly/bundles/techrepubliccore/images/icons/standard/icon-user-default.png");
+                background-size: 130px 140px;
+                width: 150px;
+                height: 140px;
+                border-width: 10px;
+                border-style: solid;
+                border-radius: 10px;
+                border-color: #888888;
+                margin-left: 15px;
+                margin-bottom: -120px;
+                position:relative; z-index:100;
+            }
+            #mini-profile-wrap{
+                padding-top: 130px;
+                height: 300px;
+                border-radius: 5px;
+                background-color: oldlace;
+                margin-bottom: 20px;
+            }
+            #mini-profile{
+                margin-left: 10%;
+                margin-right: 10%;
+                height: auto;
+            }
+            #mention-id{
+                height: 30px;
+                font-size: 15pt;
+                margin-bottom: 18px;
+            }
+            #rate{
+                margin-top: 12px;
+                border-top: 2px solid #cccccc;
+                height: auto;
+            }
+            A:link
+			{
+			    text-decoration:none;
+			    color:#102317;
+			}
+			A:visited
+			{
+			    text-decoration:none;
+			    color:#102317;
+			}
+			A:active
+			{
+			    text-decoration:none;
+			    color:#102317;
+			}
+			A:hover
+			{
+			    text-decoration:none;
+			    color:#102317;
+			}
+			.pro
+			{
+			    padding-left:10px;
+			    padding-top:10px;
+
+			    font-size:11pt;
+
+			}
+			hr
+			{
+			    background-color:black;
+			}
+			.register_pet
+			{
+			    margin-right: 30px;
+			    margin-bottom: 30px;
+                width: 260px;
+                height: 50px;
+                border-radius: 5px;
+                background-color: #E9C061;
+			}
+			.register_label
+			{
+			    text-align:center;
+			    vertical-align:middle;
+			    padding-top:9.5px;
+			    font-size:18pt;
+			}
+			#contents-wrap{
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                background-color: oldlace;
+
+                float: right;
+                width: 780px;
+                height: 750px;
+                padding: 35px 55px;
+                padding-bottom: 0;
+            }
+            .list{
+                padding: 10px;
+                border-bottom: 1px solid darkkhaki;
+            }
+            #register_wrap
+            {
+                padding-left:60px;
+                padding-right:60px;
+                display:none;
+            }
+            #default
+            {
+                display: inline;
+            }
+            #register_button
+            {
+                display: none;
+            }
+            .form-group
+            {
+                vertical-align:center;
+            }
+            #table_header
+            {
+                display: none;
+            }
+
+    	</style>
+
+	</head>
+<body>
+    <div class="container">
+        <div id="title" >
+			<a href="/"><h1>애완동물 입양 사이트</h1></a>
+        </div>
+        <div id="navigation">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" ><a href="/">Home</a></li>
+                <li role="presentation"  class="active"><a href="/mypage">마이페이지</a></li>
+                <li role="presentation"><a href="#" onclick="deleteMyCookie()">로그아웃</a></li>
+            </ul>
+        </div>
+
+
+
+        <div id="contents">
+            <div id="picture_mini_profile">
+                <div id="picture"></div>
+                <div id="mini-profile-wrap">
+                    <div id="mini-profile">
+                        <div id="pro-id" class="pro">
+
+                        </div>
+                        <div id="pro-name" class="pro">
+
+                        </div>
+                        <div id="pro-phoneNum" class="pro">
+
+                        </div>
+                        <div id="pro-email" class="pro">
+
+                        </div>
+                        <div id="pro-address" class="pro">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="register_pet">
+                <div class="register_label" onclick="register_pet_list()">
+                    애완동물 등록/조회
+                </div>
+            </div>
+            <div class="register_pet">
+                <div class="register_label" >
+                    나의 글
+                </div>
+            </div>
+            <div class="register_pet">
+                <div class="register_label" >
+                    입양 신청 목록
+                </div>
+            </div>
+            <div class="register_pet">
+                <div class="register_label" >
+                    문의글 작성/조회
+                </div>
+            </div>
+        </div>
+
+
+        <div id="contents-wrap">
+            <div id="default">
+                왼쪽에서 메뉴를 선택해 주세요.
+            </div><!--default-->
+            <div class="bs-example" data-example-id="hoverable-table" id="table_header">
+
+                <table class="table table-hover" style="" id="table">
+                    <thead>
+                        <tr>
+                            <th>no.</th>
+                            <th>종류</th>
+                            <th>품종</th>
+                            <th>무료여부</th>
+                            <th>금액</th>
+                            <th>성별</th>
+                            <th>중성화여부</th>
+                            <th>무게</th>
+                            <th>키</th>
+                        </tr>
+                    </thead>
+                    <tbody id ="list">
+
+                    </tbody>
+                </table>
+            </div><!-- /pet_list-->
+            <div id="register_button" align="right">
+                <button type="button" class="btn btn-success" onclick="print_register_page()">등록하기</button>
+            </div>
+            <div id="register_wrap">
+                <div class="form-group">
+					<label>속 : </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="btn-group" id="kinds_button" >
+                        <select name="kinds" id="kinds_list">
+
+                        </select>
+
+                    </div>
+				</div>
+                <div class="form-group">
+					<label>종 : </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="btn-group" id="kinds_kinds_button" >
+                        <select name="kinds_kinds" id="kinds_kinds_list">
+
+                        </select>
+                    </div>
+				</div>
+                <br><br>
+				<div class="form-group">
+                    <div class="label_form" style="float:left;padding-right:30px;">
+					    <label>성별</label>
+                    </div>
+                    <div class="contents_form">
+                        <input type="radio" name="gender" value="female">여&nbsp;&nbsp;
+                        <input type="radio" name="gender" value="male">남
+                    </div>
+				</div>
+				<div class="form-group">
+                    <div class="label_form" style="float:left;padding-right:30px;">
+					    <label>중성화 여부</label>
+                    </div>
+                    <div class="contents_form">
+                        <input type="radio" name="is_Neutralization" value="O">O&nbsp;&nbsp;
+                        <input type="radio" name="is_Neutralization" value="X">X
+                    </div>
+				</div>
+				<div class="form-group">
+                    <div class="label_form" style="float:left;padding-right:30px;">
+					    <label>무게</label>
+                    </div>
+                    <div class="contents_form">
+					    <input type="text" class="form-control" id="weight" style="width:100px;float:left;">&nbsp;&nbsp;kg
+                    </div>
+				</div>
+                <br>
+                <div class="form-group">
+                    <div class="label_form" style="float:left;padding-right:30px;">
+					    <label>키</label>
+                    </div>
+                    <div class="contents_form">
+					    <input type="text" class="form-control" id="height" style="width:100px;float:left;">&nbsp;&nbsp;cm
+                    </div>
+				</div>
+                <br>
+				<div class="form-group">
+                    <div class="label_form" style="float:left;padding-right:30px;">
+					    <label>무료여부</label>
+                    </div>
+                    <div class="contents_form">
+                        <input type="radio" name="is_free" value="O">O&nbsp;&nbsp;
+                        <input type="radio" name="is_free" value="X">X
+                    </div>
+				</div>
+                <div class="form-group" id="price_form">
+                    <div class="label_form" style="float:left;padding-right:30px;">
+					    <label>가격</label>
+                    </div>
+                    <div class="contents_form">
+					    <input type="text" class="form-control" id="price" style="width:100px;float:left;" value="0">&nbsp;&nbsp;원
+                    </div>
+				</div>
+                <br>
+                <div class="form-group">
+                    <div class="label_form" style="padding-right:30px;">
+					    <label>건강상태</label>
+                    </div>
+                    <div class="contents_form">
+					    <input type="text" class="form-control" id="helth">
+                    </div>
+				</div>
+                <br><br>
+				<button type="button" class="btn btn-success btn-lg" onclick="register()" style="margin-bottom:50px;">등록</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

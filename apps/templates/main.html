@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+
+		<title>메인페이지</title>
+
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+		<script type="text/javascript" src="./static/js/mypage.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="./static/js/main.js" charset="UTF-8"></script>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    	<style>
+        	body {
+        	    padding-top:30px;
+        	    background-image: url("http://cfile22.uf.tistory.com/image/1356B90B49C3C24242136D");
+        	    background-repeat: no-repeat;
+                background-size: cover;
+        	 }
+			#title
+			{
+				margin-bottom:30px;
+				text-align:center;
+				padding-left:35%;
+				padding-right:35%;
+			}
+			#navigation
+			{
+			    align:right;
+			    margin-bottom:90px;
+			}
+			A:link
+			{
+			    text-decoration:none;
+			    color:#102317;
+			}
+			A:visited
+			{
+			    text-decoration:none;
+			    color:#102317;
+			}
+			A:active
+			{
+			    text-decoration:none;
+			    color:#102317;
+			}
+			A:hover
+			{
+			    text-decoration:none;
+			    color:#102317;
+			}
+			#write_post
+			{
+			    display:none;
+			    padding-left:200px;
+			    margin-left:200px;
+			}
+			#main
+			{
+			    display:none;
+			}
+    	</style>
+
+	</head>
+	<body>
+
+		<div class = "container">
+			<div id="title" >
+			<a href="/"><h1>애완동물 입양 사이트</h1></a>
+			</div>
+            <div id="navigation">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="/">Home</a></li>
+                    <li role="presentation" ><a href="/mypage">마이페이지</a></li>
+                    <li role="presentation"><a href="#" onclick="deleteMyCookie()">로그아웃</a></li>
+                </ul>
+            </div>
+			<div id="main">
+				<table class ="table table-striped" id="post_list">
+                    <thead>
+                        <tr>
+                            <th width="5%">번호</th>
+                            <th width="10%">종류</th>
+                            <th width="10%">품종</th>
+                            <th width="10%">성별</th>
+                            <th width="40%">제목</th>
+                            <th width="15%">작성자</th>
+                            <th width="10%">날짜</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>개</td>
+                            <td>리트리버</td>
+                            <td>female</td>
+                            <td>여러분 잘 키워주세요.</td>
+                            <td>글쓴이1</td>
+                            <td>2017.10.13</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>제목제목</td>
+                            <td>작성자1</td>
+                            <td>2017.10.13</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>제목제목</td>
+                            <td>작성자1</td>
+                            <td>2017.10.13</td>
+                            <td>2</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <form action="/search" method="get" class = "navbar-form pull-right">
+                        <div class="form-group">
+                            <select name = "searchopt" class ="form-control"style="width:100px;height:33px">
+                                <option>작성자</option>
+                                <option>품종</option>
+                                <option>성별</option>
+                                <option>지역</option>
+                            </select>
+                                <input type="text" class="form-control" name="email" style="width:300px;height:33px">
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-sm">검색</button>
+                </form>
+                <br>
+                <br>
+                <br>
+                <a class="btn btn-success btn-sm" onclick="Btn_write_post()">글쓰기</a>
+                <div class = "text-center">
+                    <ul class = "pagination">
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                    </ul>
+                </div>
+			</div>
+            <div id="write_post">
+				<div class="form-group">
+                    <div class="label_form" style="float:left;padding-right:30px;">
+					    <label>글 제목</label>
+                    </div>
+                    <div class="contents_form">
+					    <input type="text" class="form-control" id="post_title" style="width:680px;float:clear;">&nbsp;&nbsp;
+                    </div>
+				</div>
+                <br>
+                <div class="form-group">
+					<label>애완동물 : </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="btn-group" id="kinds_button" >
+                        <select name="kinds" id="kinds_list">
+
+                        </select>
+                    </div>
+				</div>
+                <div class="form-group">
+                    <div class="label_form" style="float:left;padding-right:30px;">
+					    <label>글 내용</label>
+                    </div>
+                    <div class="contents_form">
+					    <textarea name="post_content" id="post_content" cols="82" rows="10" maxlength="1024" ></textarea>
+                    </div>
+				</div>
+                <br><br><br>
+				<button type="button" class="btn btn-success btn-lg" onclick="write_post()" style="margin-bottom:50px;">글쓰기</button>
+            </div>
+		</div>
+	</body>
+</html>
