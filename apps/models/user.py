@@ -41,3 +41,14 @@ class User(object):
     def makeDicByUser(cls,user):
         dic = {'username': user.username, 'passwd': user.passwd, 'email': user.email, 'id': user.id, 'phoneNum': user.phoneNum,'address': user.address}
         return dic
+
+
+class Manager(User):
+    def __init__(self):
+        User.__init__(self)
+
+
+
+class Nuser(User):
+    def __init__(self):
+        User.__init__(self)

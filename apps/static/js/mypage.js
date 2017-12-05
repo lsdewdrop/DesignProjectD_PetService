@@ -39,6 +39,9 @@ function getUser()
          409:function(msg){
             alert(msg.responseText);
          },
+         400:function(msg){
+            alert(msg.responseText);
+         }
       }
    });
 }
@@ -73,6 +76,9 @@ function goMain()
          409:function(msg){
             alert(msg.responseText);
          },
+         400:function(msg){
+            alert(msg.responseText);
+         }
       }
    });
 }
@@ -145,6 +151,9 @@ function register_pet_list()
          409:function(msg){
             alert(msg.responseText);
          },
+         400:function(msg){
+            alert(msg.responseText);
+         }
       }
    });
 }
@@ -189,6 +198,9 @@ function show_kinds()
              409:function(msg){
                 alert(msg.responseText);
              },
+             400:function(msg){
+                alert(msg.responseText);
+             }
           }
        });
 
@@ -227,6 +239,9 @@ function show_kinds_kinds()
              409:function(msg){
                 alert(msg.responseText);
              },
+             400:function(msg){
+                alert(msg.responseText);
+             }
           }
        });
 
@@ -320,6 +335,9 @@ function register()
          409:function(msg){
             alert(msg.responseText);
          },
+         400:function(msg){
+            alert(msg.responseText);
+         }
       }
    });
 }

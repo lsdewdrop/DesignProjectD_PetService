@@ -4,7 +4,7 @@ from flask import jsonify, render_template, request
 from apps import app
 from apps.controllers.Controller import Controller
 from apps.utils.token import check_token
-import json
+from flask import redirect
 
 c=Controller()
 
@@ -51,17 +51,38 @@ def register():
             data = request.json
         except ValueError:
             return "Input must be json format", 400
-        c.regist_pet(data)
+        c.registe_pet(data)
         return "success",200
     else:
         pass
 
 
 
-@app.route("/post_list")
-def post_list():
-    pass
+@app.route("/post_list/<num>")
+def post_list(num):
+    post_list=c.get_posts(num)
+    return jsonify(results=post_list)
 
-@app.route("/write_post")
+@app.route("/write_post", methods=['POST'])
 def write_post():
-    pass
+    if request.method == 'POST':
+        try:
+            c.save_post(request)
+        except ValueError:
+            return "Input must be json format", 400
+        return render_template("main.html")
+    else:
+        pass
+
+
+
+@app.route('/view/<num>')
+def view(num):
+    data=c.get_one_post(num)
+    return render_template('post.html',  datas=data)
+
+
+@app.route('/regist_pet/<int:p_no>')
+def regist_pet(p_no):
+    e=c.regist_pet(p_no)
+    return redirect('/')

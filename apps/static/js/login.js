@@ -63,6 +63,9 @@ function signup(){
          409:function(msg){
             alert(msg.responseText);
          },
+         400:function(msg){
+            alert(msg.responseText);
+         }
       }
    });
 }

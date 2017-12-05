@@ -25,14 +25,12 @@ class DB:
             db = g._database = init_db().connect()
         return db
 
-    @classmethod
     def select_one(self,query):
         db = DB.get_db()
         cursor=db.cursor()
         cursor.execute(query)
         return cursor.fetchone()
 
-    @classmethod
     def select_all(self,query):
         db = DB.get_db()
         cursor = db.cursor()
@@ -46,7 +44,6 @@ class DB:
         cursor.execute(query)
         db.commit()
 
-    @classmethod
     def get_id_from_db(self,get_session):
         query = "SELECT * FROM twt_sessions WHERE session='%s'"
         get_table = self.select_one(query % get_session)

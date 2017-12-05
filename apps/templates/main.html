@@ -60,6 +60,10 @@
 			{
 			    display:none;
 			}
+			.check
+			{
+			    padding-left:10px;
+			}
     	</style>
 
 	</head>
@@ -76,49 +80,53 @@
                     <li role="presentation"><a href="#" onclick="deleteMyCookie()">로그아웃</a></li>
                 </ul>
             </div>
+            <div id="checkbox_wrap" style="padding-bottom:10px;">
+                <form action="/">
+                    <label class="check">종류</label>
+                    <input type="text" style="padding-bottom:5px;">
+                    <label class="check">품종</label>
+                    <input type="text" style="padding-bottom:5px;">
+                    <label class="check">여</label>
+                    <input type="checkbox" value="여">
+                    <label class="check">남</label>
+                    <input type="checkbox" value="남">
+                    <label class="check">무료</label>
+                    <input type="checkbox" value="여">
+                    <label class="check">유료</label>
+                    <input type="checkbox" value="남">
+                    <label class="check">중성화 O</label>
+                    <input type="checkbox" value="여">
+                    <label class="check">중성화 X</label>
+                    <input type="checkbox" value="남">
+                    <label class="check">지역</label>
+                    <input type="text" style="padding-bottom:5px;">
+
+                </form>
+            </div>
 			<div id="main">
-				<table class ="table table-striped" id="post_list">
+				<table class ="table table-striped" id="post_list_wrap">
                     <thead>
                         <tr>
                             <th width="5%">번호</th>
                             <th width="10%">종류</th>
                             <th width="10%">품종</th>
-                            <th width="10%">성별</th>
-                            <th width="40%">제목</th>
-                            <th width="15%">작성자</th>
-                            <th width="10%">날짜</th>
+                            <th width="5%">성별</th>
+                            <th width="38%">제목</th>
+                            <th width="8%">작성자</th>
+                            <th width="24%">날짜</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>개</td>
-                            <td>리트리버</td>
-                            <td>female</td>
-                            <td>여러분 잘 키워주세요.</td>
-                            <td>글쓴이1</td>
-                            <td>2017.10.13</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>제목제목</td>
-                            <td>작성자1</td>
-                            <td>2017.10.13</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>제목제목</td>
-                            <td>작성자1</td>
-                            <td>2017.10.13</td>
-                            <td>2</td>
-                        </tr>
+                    <tbody id="post_list">
+
                     </tbody>
                 </table>
-                <br>
+                <br><br>
+                <div id="page_num" style="text-align:center;">
+
+                </div>
                 <form action="/search" method="get" class = "navbar-form pull-right">
                         <div class="form-group">
-                            <select name = "searchopt" class ="form-control"style="width:100px;height:33px">
+                            <select name = "searchopt" class ="form-control" style="width:100px;height:33px">
                                 <option>작성자</option>
                                 <option>품종</option>
                                 <option>성별</option>
@@ -133,44 +141,40 @@
                 <br>
                 <br>
                 <a class="btn btn-success btn-sm" onclick="Btn_write_post()">글쓰기</a>
-                <div class = "text-center">
-                    <ul class = "pagination">
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                    </ul>
-                </div>
+
 			</div>
             <div id="write_post">
-				<div class="form-group">
-                    <div class="label_form" style="float:left;padding-right:30px;">
-					    <label>글 제목</label>
+                <form action="/write_post" method="POST" id="do-twit-wrap" enctype=multipart/form-data>
+                    <div class="form-group">
+                        <div class="label_form"  style="float:left;padding-right:30px;">
+                            <label>글 제목</label>
+                        </div>
+                        <div class="contents_form">
+                            <input type="text" class="form-control" id="post_title" name="post_title" style="width:680px;float:clear;">&nbsp;&nbsp;
+                        </div>
                     </div>
-                    <div class="contents_form">
-					    <input type="text" class="form-control" id="post_title" style="width:680px;float:clear;">&nbsp;&nbsp;
+                    <br>
+                    <div class="form-group">
+                        <label>애완동물 : </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <div class="btn-group" id="pet_button" >
+                            <select name="pet" id="pet_list">
+                                <option value="lit">리트리버</option>
+                            </select>
+                        </div>
                     </div>
-				</div>
-                <br>
-                <div class="form-group">
-					<label>애완동물 : </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<div class="btn-group" id="kinds_button" >
-                        <select name="kinds" id="kinds_list">
-
-                        </select>
+                    <div class="form-group">
+                        <div class="label_form" style="float:left;padding-right:30px;">
+                            <label>글 내용</label>
+                        </div>
+                        <div class="contents_form">
+                            <textarea name="post_content" id="post_content" cols="82" rows="10" maxlength="1024" ></textarea>
+                        </div>
                     </div>
-				</div>
-                <div class="form-group">
-                    <div class="label_form" style="float:left;padding-right:30px;">
-					    <label>글 내용</label>
-                    </div>
-                    <div class="contents_form">
-					    <textarea name="post_content" id="post_content" cols="82" rows="10" maxlength="1024" ></textarea>
-                    </div>
-				</div>
-                <br><br><br>
-				<button type="button" class="btn btn-success btn-lg" onclick="write_post()" style="margin-bottom:50px;">글쓰기</button>
+                    <br>
+                    <input type="file" name="file" id="twit_file">
+                    <br><br>
+                    <button type="submit" class="btn btn-success btn-lg" style="margin-bottom:50px;">글쓰기</button>
+                </form>
             </div>
 		</div>
 	</body>
