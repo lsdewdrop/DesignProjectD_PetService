@@ -5,6 +5,7 @@ import time
 from apps.models.user import User, Manager, Nuser
 from apps.models.pet import Pet, NFreePet, FreePet
 from apps.models.post import Post
+from apps.models.Report import Report,ReportType
 from apps import app
 from werkzeug.utils import secure_filename
 import json, requests, os, hashlib
@@ -21,6 +22,7 @@ class Controller():
         self.post=Post()
         self.pet=Pet()
         self.db=DB()
+        self.report=Report()
 
     def login(self,user):
         dbuser = self.get_user(user)
@@ -229,3 +231,132 @@ class Controller():
             return 1
 
 
+    def search(self, request):
+        flag=False
+        sub_q="where "
+        # query="SELECT no, title, auth_id, time, register_id, pet_kinds.kinds, pet_kinds_kinds.kinds_kinds, gender " \
+        #       "FROM pet_posts LEFT JOIN pet_pets on pet_posts.pet=pet_pets.id " \
+        #       "LEFT JOIN pet_users on pet_posts.auth_id=pet_users.id " \
+        #       "LEFT JOIN pet_kinds on pet_pets.kinds=pet_kinds.id " \
+        #       "LEFT JOIN pet_kinds_kinds on pet_pets.kinds_kinds=pet_kinds_kinds.id "
+        query="SELECT no, title, auth_id, time, register_id, pet_kinds.kinds, pet_kinds_kinds.kinds_kinds, gender " \
+              "FROM pet_posts LEFT JOIN pet_pets ON pet_posts.pet=pet_pets.id " \
+              "LEFT JOIN pet_users on pet_posts.auth_id=pet_users.id " \
+              "LEFT JOIN pet_kinds on pet_pets.kinds=pet_kinds.id " \
+              "LEFT JOIN pet_kinds_kinds on pet_pets.kinds_kinds=pet_kinds_kinds.id "
+        t=tuple()
+        if request.form['kinds'] is not "":
+            if flag is False:
+                sub_q+="pet_kinds.kinds='%s'"
+                flag=True
+            else:
+                sub_q += "or pet_kinds.kinds='%s' "
+            t = t + (request.form['kinds'],)
+
+        if request.form['kinds_kinds'] is not "":
+            if flag is False:
+                sub_q+="pet_kinds_kinds.kinds_kinds='%s'"
+                flag=True
+            else:
+                sub_q += "or pet_kinds_kinds.kinds_kinds='%s' "
+            t = t + (request.form['kinds_kinds'],)
+
+
+        if 'female' in request.form:
+            if flag is False:
+                sub_q+="gender=%d"
+                flag=True
+            else:
+                sub_q += "or gender=%d "
+            t = t + (int(request.form['female']),)
+
+        if 'male' in request.form:
+            if flag is False:
+                sub_q+="gender=%d"
+                flag=True
+            else:
+                sub_q += "or gender=%d "
+            t = t + (int(request.form['male']),)
+
+
+        if 'free' in request.form:
+            if flag is False:
+                sub_q+="is_free=%d"
+                flag=True
+            else:
+                sub_q += "or is_free=%d "
+            t = t + (int(request.form['free']),)
+
+
+        if 'nfree' in request.form:
+            if flag is False:
+                sub_q+="is_free=%d"
+                flag=True
+            else:
+                sub_q += "or is_free=%d "
+            t = t + (int(request.form['nfree']),)
+
+
+        if 'NO' in request.form:
+            if flag is False:
+                sub_q+="is_Neutralization=%d"
+                flag=True
+            else:
+                sub_q += "or is_Neutralization=%d "
+            t = t + (int(request.form['NO']),)
+
+
+        if 'NX' in request.form:
+            if flag is False:
+                sub_q+="is_Neutralization=%d"
+                flag=True
+            else:
+                sub_q += "or is_Neutralization=%d "
+            t = t + (int(request.form['NX']),)
+
+
+        if request.form['region'] is not "":
+            if flag is False:
+                sub_q+="address=%d"
+                flag=True
+            else:
+                sub_q += "or address=%d "
+            t = t + (request.form['region'],)
+
+        if flag is not False:
+            query=query+sub_q
+            query += " order by no desc"
+            l=self.db.select_all(query%t)
+        else:
+            query += " order by no desc"
+            l=self.db.select_all(query)
+
+
+        plist=list()
+        for i in l:
+            dic = {}
+            dic['no']=i[0]
+            dic['title']=i[1]
+            dic['auth_id'] = i[2]
+            dic['time'] = i[3]
+            dic['register_id'] = i[4]
+            dic['kinds'] = i[5]
+            dic['kinds_kinds'] = i[6]
+            dic['gender'] = i[7]
+
+            plist.append(dic)
+
+        return plist, len(plist)
+
+
+
+    def getReport_mylist(self):
+        user=self.getUser_by_token()
+        query = "select * from pet_reports join pet_report_type on pet_reports.tid=pet_report_type.id where uid='%s'"
+        reports = self.db.select_all(query % (user.id))
+        report_list = list()
+        for i in reports:
+            temp = self.report.makeDicByReport(self.report.create_from_dbdata(i))
+            report_list.append(temp)
+
+        return report_list

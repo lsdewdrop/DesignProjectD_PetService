@@ -86,3 +86,23 @@ def view(num):
 def regist_pet(p_no):
     e=c.regist_pet(p_no)
     return redirect('/')
+
+@app.route('/search', methods=['POST'])
+def search_post():
+    plist=None
+    num=None
+    if request.method == 'POST':
+        try:
+            plist,num=c.search(request)
+
+        except ValueError:
+            return "Input must be json format", 400
+    else:
+        pass
+    return render_template('search_main.html', list=plist, num=num)
+
+
+@app.route('/report_my_list')
+def report_list():
+    report_list = c.getReport_mylist()
+    return jsonify(results=report_list)

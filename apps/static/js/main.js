@@ -1,7 +1,11 @@
 $(document).ready(function () {
     $(function(){
-        getPostList(1);
+        if (document.location.href!='http://127.0.0.1:5000/search')
+        {
+            getPostList(1);
+        }
         document.getElementById('main').style.display = 'inline';
+        document.getElementById('checkbox_wrap').style.display = 'inline';
     });
 
 });
@@ -116,6 +120,7 @@ function getPostList(num)
 
 function Btn_write_post()
 {
+    document.getElementById('checkbox_wrap').style.display = 'none';
     document.getElementById('main').style.display = 'none';
     document.getElementById('write_post').style.display = 'inline';
     getPetList()

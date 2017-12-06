@@ -165,6 +165,10 @@
             {
                 display: none;
             }
+            #report_wrap
+            {
+                display:none;
+            }
 
     	</style>
 
@@ -224,7 +228,7 @@
                 </div>
             </div>
             <div class="register_pet">
-                <div class="register_label" >
+                <div class="register_label" onclick="report_list()">
                     문의글 작성/조회
                 </div>
             </div>
@@ -342,6 +346,34 @@
 				</div>
                 <br><br>
 				<button type="button" class="btn btn-success btn-lg" onclick="register()" style="margin-bottom:50px;">등록</button>
+            </div>
+            <div id="report_wrap">
+                <div class="bs-example" data-example-id="hoverable-table" id="report_table_header">
+                    <table class="table table-hover" style="" id="report_table">
+                        <thead>
+                            <tr>
+                                <th>no.</th>
+                                <th>종류</th>
+                                <th>품종</th>
+                                <th>무료여부</th>
+                                <th>금액</th>
+                                <th>성별</th>
+                                <th>중성화여부</th>
+                                <th>무게</th>
+                                <th>키</th>
+                            </tr>
+                        </thead>
+                        <tbody id ="report_list">
+
+                        </tbody>
+                    </table>
+                </div><!-- /pet_list-->
+                <div id="report_button" align="right">
+                    <button type="button" class="btn btn-success" onclick="print_reporting_page()">문의하기</button>
+                </div>
+            </div>
+            <div id="report_page">
+
             </div>
         </div>
     </div>
