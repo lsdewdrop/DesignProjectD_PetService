@@ -24,6 +24,7 @@ class Controller():
         self.db=DB()
         self.report=Report()
 
+
     def login(self,user):
         dbuser = self.get_user(user)
         if dbuser is None:
@@ -36,10 +37,12 @@ class Controller():
 
         return response
 
+
     def get_user(self,user):
         query = "select * from pet_users where ID ='%s'"
         user = self.db.select_one(query % user.id)
         return user
+
 
     def save_user(self,user):
         if self.get_user(user) is not None:
@@ -48,6 +51,7 @@ class Controller():
         query = "insert into pet_users (ID, pw, name,email, phone_num, address) values ('%s','%s','%s','%s','%s','%s')"
         self.db.insert(query % (user.id, user.passwd, user.username, user.email, user.phoneNum, user.address))
         return ""
+
 
     def getUser_by_token(self):
         session = get_token()
@@ -60,10 +64,12 @@ class Controller():
         user = self.user.create_from_dbdata(dbuser)
         return user
 
+
     def getUserData(self):
         user = self.getUser_by_token()
         dic = self.user.makeDicByUser(user)
         return dic
+
 
     def getRegister_list(self):
         user = self.getUser_by_token()
@@ -81,17 +87,20 @@ class Controller():
 
         return pet_list
 
+
     def show_kinds_list(self):
         query = "select kinds from pet_kinds"
         kinds = self.db.select_all(query)
 
         return kinds
 
+
     def show_kinds_kinds_list(self,data):
         query = "select kinds_kinds from pet_kinds_kinds where kinds=(select id from pet_kinds where kinds='%s')"
         kinds = self.db.select_all(query % (data))
 
         return kinds
+
 
     def save_register(self, data):
         if data['is_free'] == 'O':
@@ -160,9 +169,6 @@ class Controller():
         return post_list
 
 
-
-
-
     def save_post(self, data):
         post_title = data.form['post_title']
         user_id = self.getUser_by_token().id
@@ -212,8 +218,6 @@ class Controller():
         post_and_pet.append(kinds_kinds[0])
 
         return post_and_pet
-
-
 
 
     def regist_pet(self,p_no):
@@ -349,14 +353,82 @@ class Controller():
         return plist, len(plist)
 
 
-
     def getReport_mylist(self):
         user=self.getUser_by_token()
-        query = "select * from pet_reports join pet_report_type on pet_reports.tid=pet_report_type.id where uid='%s'"
-        reports = self.db.select_all(query % (user.id))
+        query = "select pet_reports.id, title, type, uid, time, content from pet_reports join pet_report_type on " \
+                "pet_reports.tid=pet_report_type.id where uid='%s' order by pet_reports.id desc"
+        reports = self.db.select_all(query % user.id)
         report_list = list()
         for i in reports:
             temp = self.report.makeDicByReport(self.report.create_from_dbdata(i))
             report_list.append(temp)
 
         return report_list
+
+
+    def show_report_t(self):
+        query = "select type from pet_report_type"
+        types = self.db.select_all(query)
+
+        return types
+
+
+    def save_report(self, data):
+        query="insert into pet_reports (title, tid, uid, content) values ('%s',(select id from pet_report_type where type='%s'),'%s','%s')"
+        self.db.insert(query%(data['title'],data['type'],self.getUser_by_token().id,data['content']))
+
+
+    def getPost_mylist(self):
+        user=self.getUser_by_token()
+
+        query = "select * from pet_posts where auth_id='%s'order by no desc"
+        posts = self.db.select_all(query % user.id)
+        post_list = list()
+        for i in posts:
+            temp = self.post.makeDicByPost(self.post.create_from_dbdata(i))
+            query = "select * from pet_pets where id=%d"
+            pet_t = self.db.select_one(query % temp['pet'])
+            if pet_t[3] == 1:
+                self.pet = FreePet()
+            else:
+                self.pet = NFreePet()
+            pet = self.pet.create_from_dbdata(pet_t)
+            query = "select kinds from pet_kinds where id='%s'"
+            kinds = self.db.select_one(query % pet.kinds)
+            query = "select kinds_kinds from pet_kinds_kinds where id='%s'"
+            kinds_kinds = self.db.select_one(query % pet.kinds_kinds)
+            temp['kinds'] = kinds
+            temp['kinds_kinds'] = kinds_kinds
+            temp['gender'] = pet.gender
+
+            post_list.append(temp)
+
+        return post_list
+
+
+    def getPost_myRegistlist(self):
+        user = self.getUser_by_token()
+
+        query = "select * from pet_posts where register_id='%s'order by no desc"
+        posts = self.db.select_all(query % user.id)
+        post_list = list()
+        for i in posts:
+            temp = self.post.makeDicByPost(self.post.create_from_dbdata(i))
+            query = "select * from pet_pets where id=%d"
+            pet_t = self.db.select_one(query % temp['pet'])
+            if pet_t[3] == 1:
+                self.pet = FreePet()
+            else:
+                self.pet = NFreePet()
+            pet = self.pet.create_from_dbdata(pet_t)
+            query = "select kinds from pet_kinds where id='%s'"
+            kinds = self.db.select_one(query % pet.kinds)
+            query = "select kinds_kinds from pet_kinds_kinds where id='%s'"
+            kinds_kinds = self.db.select_one(query % pet.kinds_kinds)
+            temp['kinds'] = kinds
+            temp['kinds_kinds'] = kinds_kinds
+            temp['gender'] = pet.gender
+
+            post_list.append(temp)
+
+        return post_list

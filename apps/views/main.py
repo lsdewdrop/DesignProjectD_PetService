@@ -106,3 +106,30 @@ def search_post():
 def report_list():
     report_list = c.getReport_mylist()
     return jsonify(results=report_list)
+
+@app.route('/show_report')
+def show_report():
+    report_t_list = c.show_report_t()
+    return jsonify(results=report_t_list)
+
+@app.route('/save_report', methods=['POST'])
+def reporting():
+    if request.method == 'POST':
+        try:
+            data = request.json
+        except ValueError:
+            return "Input must be json format", 400
+        c.save_report(data)
+        return "success",200
+    else:
+        pass
+
+@app.route('/post_my_list')
+def post_my_list():
+    post_list = c.getPost_mylist()
+    return jsonify(results=post_list)
+
+@app.route('/post_my_regist_list')
+def post_my_regist_list():
+    post_list = c.getPost_myRegistlist()
+    return jsonify(results=post_list)
