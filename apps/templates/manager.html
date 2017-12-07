@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<Html>
+<head>
+<meta charset='utf-8'>
+<title>관리자</title>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script>
+        $(document).ready(function() {
+            $('a[data-toggle="tab"]').on('hidden.bs.tab', function(e){
+                alert("이벤트 실행됨");
+            });
+        });
+</script>
+</head>
+<body>
+<div class="container">
+	<h1><span class="glyphicon glyphicon-wrench"></span> 관리자</h1>
+	<ul id="myTab" class="nav nav-tabs" role="tablist">
+	  <li role="presentation" class="active"><a data-target="#tab1" id="tab1-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">회원삭제</a></li>
+	  <li role="presentation" class=""><a data-target="#tab2" role="tab" id="tab2-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">글삭제</a></li>
+    <li role="presentation" class=""><a data-target="#tab3" role="tab" id="tab3-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">문의보기</a></li>
+    <li role="presentation" class=""><a data-target="#tab4" role="tab" id="tab4-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">로그아웃</a></li>
+	</ul>
+	<div id="myTabContent" class="tab-content">
+	  <div role="tabpanel" class="tab-pane fade active in" id="tab1" aria-labelledby="tab1-tab">
+      <form action="/deluser" method="get" >
+          <div class="form-group">
+              <label>삭제할 회원</label>
+              <input type="text" class="form-control" name="id">
+          </div>
+          <button type="submit" class="btn btn-success btn-sm">회원삭제</button>
+		  {% if num==1 %}
+		  	<p>삭제에 성공하였습니다.</p>
+		  {% elif num==2 %}
+		  	<p>삭제에 실패하였습니다. 확인하여 주십시오</p>
+		  {% endif %}
+      </form>
+	  </div>
+	  <div role="tabpanel" class="tab-pane fade" id="tab2" aria-labelledby="tab2-tab">
+      <form action="/delpost" method="get" >
+          <div class="form-group">
+              <label>글 번호</label>
+              <input type="text" class="form-control" name="number">
+          </div>
+          <button type="submit" class="btn btn-success btn-sm">글삭제</button>
+		   {% if num2==1 %}
+		  	<p>삭제에 성공하였습니다.</p>
+		  {% elif num2==2 %}
+		  	<p>삭제에 실패하였습니다. 확인하여 주십시오</p>
+		  {% endif %}
+      </form>
+	  </div>
+    <div role="tabpanel" class="tab-pane fade" id="tab3" aria-labelledby="tab3-tab">
+      <table class ="table table-striped">
+				<thead>
+					<tr>
+						<th width="10%">번호</th>
+						<th width="50%">제목</th>
+						<th width="10%">작성자</th>
+						<th width="20%">날짜</th>
+						<th width="10%">조회수</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>제목제목제목제목</td>
+						<td>작성자1</td>
+						<td>2017.10.13</td>
+						<td>2</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>제목제목</td>
+						<td>작성자1</td>
+						<td>2017.10.13</td>
+						<td>2</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>제목제목</td>
+						<td>작성자1</td>
+						<td>2017.10.13</td>
+						<td>2</td>
+					</tr>
+				</tbody>
+			</table>
+      <form action="/report" method="get" class = "navbar-form pull-right">
+					<div class="form-group">
+						<select name = "searchopt" class ="form-control" style="width:100px;height:33px">
+							<option>작성자</option>
+							<option>작성자</option>
+							<option>작성자</option>
+						</select>
+							<input type="text" class="form-control" name="email" style="width:300px;height:33px">
+					</div>
+					<button type="submit" class="btn btn-success btn-sm">검색</button>
+			</form>
+			<br>
+			<br>
+			<br>
+			<div class = "text-center">
+				<ul class = "pagination">
+					<li><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+				</ul>
+			</div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="tab4" aria-labelledby="tab4-tab">
+      <form action="/logout" method="get" >
+        <br>
+        <button type="submit" class="btn btn-success btn-sm">로그아웃</button>
+      </form>
+   </div>
+	</div>
+</div>
+</body>
+</html>

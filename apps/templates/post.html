@@ -4,11 +4,10 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
 
-		<title>글 보기</title>
+		<title>메인페이지</title>
 
         <script type="text/javascript" src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-		<script type="text/javascript" src="../static/js/main.js" charset="UTF-8"></script>
-        <script type="text/javascript" src="../static/js/post.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="./static/js/main.js" charset="UTF-8"></script>
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     	<style>
@@ -63,23 +62,11 @@
 			#viewButton
 			{
 			    padding-bottom:200px;
-			    display:none;
 			}
 			#contents
 			{
 			    padding-top:50px;
-			    display:none;
 			}
-			#register
-			{
-			    display:none;
-			}
-			#modify_post
-			{
-			    display:none;
-			}
-
-
     	</style>
 
 	</head>
@@ -108,9 +95,9 @@
                 <br><br>
                 글쓴이 : {{ datas[0].auth_id }}
                 <br><br>
-                종류 : {{ datas[2] }}
+                종류 : {{ datas[3] }}
                 <br><br>
-                품종 : {{ datas[3] }}
+                품종 : {{ datas[4] }}
                 <br><br>
                 {%if datas[1].gender|int == 1%}
                 성별 : 여
@@ -132,7 +119,7 @@
                 <br><br>
                 건강 상태 : {{ datas[1].helth }}
                 <br><br>
-                <img src="../static/picture/{{datas[4]}}" id="post_img">
+                <img src="../static/picture/{{datas[2]}}" id="post_img">
                 <br><br>
                 시간 : {{ datas[0].time }}
 
@@ -140,33 +127,8 @@
             </div>
             <br><br>
             <div id="viewButton" align="right">
-                <button class="btn btn-success btn" type="submit" onclick="modify_page()">수정</button>
-                <form action="/delete_post/{{datas[0].no}}">
-                    <button class="btn btn-success btn" type="submit">삭제</button>
-                </form>
                 <form action="/">
                     <button class="btn btn-success btn" type="submit">목록보기</button>
-                </form>
-            </div>
-            <div id="modify_post">
-                <form action="/modify_post/{{datas[0].no}}" method="post">
-                    <div class="form-group">
-                        <div class="label_form"  style="float:left;padding-right:30px;">
-                            <label>글 제목</label>
-                        </div>
-                        <div class="contents_form">
-                            <input type="text" class="form-control" id="post_title" name="post_title" style="width:680px;float:clear;">&nbsp;&nbsp;
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="label_form" style="float:left;padding-right:30px;">
-                            <label>글 내용</label>
-                        </div>
-                        <div class="contents_form">
-                            <textarea name="post_content" id="post_content" cols="82" rows="10" maxlength="1024" ></textarea>
-                        </div>
-                    </div>
-                    <button class="btn btn-success btn" type="submit">수정</button>
                 </form>
             </div>
 		</div>

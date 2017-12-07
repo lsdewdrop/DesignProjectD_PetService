@@ -89,9 +89,6 @@ function register_pet_list()
     document.getElementById('register_wrap').style.display = 'none';
     document.getElementById('table_header').style.display = 'inline';
     document.getElementById('default').style.display = 'none';
-    document.getElementById('post_my_list_container').style.display = 'none';
-    document.getElementById('report_wrap').style.display = 'none';
-    document.getElementById('post_my__regist_list_container').style.display = 'none';
 
     $.ajax
    ({
@@ -167,11 +164,11 @@ function print_register_page()
     document.getElementById('register_button').style.display = 'none';
     document.getElementById('register_wrap').style.display = 'inline';
     document.getElementById('table_header').style.display = 'none';
-    document.getElementById('post_my_list_container').style.display = 'none';
-    document.getElementById('default').style.display = 'none';
-    document.getElementById('report_wrap').style.display = 'none';
-    document.getElementById('post_my__regist_list_container').style.display = 'none';
 }
+
+
+
+
 
 function show_kinds()
 {
@@ -345,6 +342,7 @@ function register()
    });
 }
 
+
 function report_list()
 {
     document.getElementById('register_button').style.display = 'none';
@@ -352,8 +350,6 @@ function report_list()
     document.getElementById('table_header').style.display = 'none';
     document.getElementById('default').style.display = 'none';
     document.getElementById('report_wrap').style.display = 'inline';
-    document.getElementById('post_my_list_container').style.display = 'none';
-    document.getElementById('post_my__regist_list_container').style.display = 'none';
 
     $.ajax
    ({
@@ -372,20 +368,44 @@ function report_list()
         for(var i=0; i<table.length; i++)
         {
             all_html+="<tr>";
-            all_html+="<th scope=\"row\" align=\"center\">"+table[i].id+"</th>";
-            all_html+="<td>"+table[i].title+"</td>";
-            all_html+="<td>"+table[i].uid+"</td>";
-            all_html+="<td>"+table[i].time+"</td>";
+            all_html+="<th scope=\"row\" align=\"center\">"+(i+1)+"</th>";
+            all_html+="<td>"+table[i].kinds+"</td>";
+            all_html+="<td>"+table[i].kinds_kinds+"</td>";
+            if(table[i].is_free==1)
+            {
+                all_html+="<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O</td>";
+            }
+            else
+            {
+                all_html+="<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X</td>";
+            }
+
+            all_html+="<td>"+table[i].price+"</td>";
+            if(table[i].gender==1)
+            {
+                all_html+="<td>&nbsp;&nbsp;&nbsp;남</td>";
+            }
+            else
+            {
+                all_html+="<td>&nbsp;&nbsp;&nbsp;여</td>";
+            }
+            if(table[i].is_Neutralization==1)
+            {
+                all_html+="<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O</td>";
+            }
+            else
+            {
+                all_html+="<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X</td>";
+            }
+
+            all_html+="<td>"+table[i].weight+"kg</td>";
+            all_html+="<td>"+table[i].height+"cm</td>";
             all_html+="</tr>";
         }
 
-        document.getElementById('register_button').style.display = 'none';
-        document.getElementById('register_wrap').style.display = 'none';
-        document.getElementById('table_header').style.display = 'none';
-        document.getElementById('report_page').style.display = 'none';
-        document.getElementById('report_wrap').style.display = 'inline';
+        document.getElementById('table_header').style.display = 'inline';
 
-        $("#report_list").html(all_html);
+        $("#list").html(all_html);
 
       },
       statusCode:{
@@ -399,41 +419,6 @@ function report_list()
    });
 }
 
-function show_report_type()
-{
-
-        $.ajax
-       ({
-          type: 'GET',
-          headers:
-          {
-             'Accept': 'application/json',
-             'Content-Type': 'application/json'
-          },
-          url: "/show_report",
-          async: false,
-
-          success: function(result){
-            table=result.results;
-            all_html="<option value=\"\">선택</option>"
-            for(var i=0; i<table.length; i++)
-            {
-                all_html+="<option value=\""+table[i]+"\">"+table[i]+"</option>";
-            }
-            $("#report_t_list").html(all_html);
-
-          },
-          statusCode:{
-             409:function(msg){
-                alert(msg.responseText);
-             },
-             400:function(msg){
-                alert(msg.responseText);
-             }
-          }
-       });
-
-}
 
 function print_reporting_page()
 {
@@ -441,169 +426,5 @@ function print_reporting_page()
     document.getElementById('register_button').style.display = 'none';
     document.getElementById('register_wrap').style.display = 'none';
     document.getElementById('table_header').style.display = 'none';
-    document.getElementById('report_wrap').style.display = 'none';
-    document.getElementById('report_page').style.display = 'inline';
-    document.getElementById('post_my_list_container').style.display = 'none';
-    document.getElementById('post_my__regist_list_container').style.display = 'none';
-}
-
-function reporting()
-{
-    var e = document.getElementById("report_t_list");
-
-    var type = e.options[e.selectedIndex].value;
-
-    var r_title = $("#report_title").val();
-    var r_content = $("#report_content").val();
-
-
-    data = {'type': type, 'title': r_title, 'content': r_content}
-    json_data=JSON.stringify(data);
-
-    $.ajax
-   ({
-      type: 'POST',
-      headers:
-      {
-         'Accept': 'application/json',
-         'Content-Type': 'application/json'
-      },
-      url: "/save_report",
-      async: false,
-      data: json_data,
-
-      success: function(result){
-        report_list()
-
-      },
-      statusCode:{
-         409:function(msg){
-            alert(msg.responseText);
-         },
-         400:function(msg){
-            alert(msg.responseText);
-         }
-      }
-   });
-}
-
-function my_post_list()
-{
-    document.getElementById('register_button').style.display = 'none';
-    document.getElementById('register_wrap').style.display = 'none';
-    document.getElementById('table_header').style.display = 'none';
-    document.getElementById('default').style.display = 'none';
-    document.getElementById('report_wrap').style.display = 'none';
-    document.getElementById('post_my_list_container').style.display = 'inline';
-    document.getElementById('post_my__regist_list_container').style.display = 'none';
-
-
-    $.ajax
-   ({
-      type: 'GET',
-      headers:
-      {
-         'Accept': 'application/json',
-         'Content-Type': 'application/json'
-      },
-      url: "/post_my_list",
-      async: false,
-
-      success: function(result){
-            table=result.results;
-            all_html=""
-            for(var i=0; i<table.length; i++)
-            {
-                all_html+="<tr>";
-                all_html+="<th scope=\"row\" align=\"center\">"+table[i].no+"</th>";
-                all_html+="<td>"+table[i].kinds+"</td>";
-                all_html+="<td>"+table[i].kinds_kinds+"</td>";
-                if(table[i].gender==1)
-                {
-                    all_html+="<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;여</td>";
-                }
-                else
-                {
-                    all_html+="<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;남</td>";
-                }
-
-                all_html+="<td><a href=\"/view/"+table[i].no+"\">"+table[i].title+"</a></td>";
-                all_html+="<td>"+table[i].auth_id+"</td>";
-                all_html+="<td>"+table[i].time+"</td>";
-                all_html+="</tr>";
-            }
-
-
-            $("#post_my_list").html(all_html);
-
-      },
-      statusCode:{
-         409:function(msg){
-            alert(msg.responseText);
-         },
-         400:function(msg){
-            alert(msg.responseText);
-         }
-      }
-   });
-}
-
-function my_regist_post_list()
-{
-    document.getElementById('register_button').style.display = 'none';
-    document.getElementById('register_wrap').style.display = 'none';
-    document.getElementById('table_header').style.display = 'none';
-    document.getElementById('default').style.display = 'none';
-    document.getElementById('report_wrap').style.display = 'none';
-    document.getElementById('post_my_list_container').style.display = 'none';
-    document.getElementById('post_my__regist_list_container').style.display = 'inline';
-
-     $.ajax
-   ({
-      type: 'GET',
-      headers:
-      {
-         'Accept': 'application/json',
-         'Content-Type': 'application/json'
-      },
-      url: "/post_my_regist_list",
-      async: false,
-
-      success: function(result){
-            table=result.results;
-            all_html=""
-            for(var i=0; i<table.length; i++)
-            {
-                all_html+="<tr>";
-                all_html+="<th scope=\"row\" align=\"center\">"+table[i].no+"</th>";
-                all_html+="<td>"+table[i].kinds+"</td>";
-                all_html+="<td>"+table[i].kinds_kinds+"</td>";
-                if(table[i].gender==1)
-                {
-                    all_html+="<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;여</td>";
-                }
-                else
-                {
-                    all_html+="<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;남</td>";
-                }
-
-                all_html+="<td><a href=\"/view/"+table[i].no+"\">"+table[i].title+"</a></td>";
-                all_html+="<td>"+table[i].auth_id+"</td>";
-                all_html+="<td>"+table[i].time+"</td>";
-                all_html+="</tr>";
-            }
-
-
-            $("#post_my_regist_list").html(all_html);
-
-      },
-      statusCode:{
-         409:function(msg){
-            alert(msg.responseText);
-         },
-         400:function(msg){
-            alert(msg.responseText);
-         }
-      }
-   });
+    document.getElementById('register_wrap').style.display = 'inline';
 }

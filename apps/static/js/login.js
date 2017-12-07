@@ -56,8 +56,8 @@ function signup(){
       async: false,
       data: json_data,
       success: function(result){
-         alert("signup success");
-          location.href="/";
+            alert("signup success");
+            location.href="/";
       },
       statusCode:{
          409:function(msg){

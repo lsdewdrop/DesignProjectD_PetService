@@ -21,8 +21,13 @@ class ReportType():
     @classmethod
     def create_from_dbdata(cls, dbdata):
         type = ReportType()
-        type.id = dbdata[0]
-        type.type = dbdata[1]
+        type.no = dbdata[0]
+        type.title = dbdata[1]
+        type.auth_id = dbdata[2]
+        type.content = dbdata[3]
+        type.time = dbdata[4]
+        type.register_id = dbdata[5]
+        type.pet = dbdata[6]
 
         return type
 
@@ -56,7 +61,7 @@ class Report():
 
     @classmethod
     def makeDicByReport(cls, r):
-        dic = {'id': r.id, 'title': r.title, 'tid':r.tid, 'uid':r.uid,'time':r.time,'content':r.content}
+        dic = {'id': r.id, 'type': r.title, 'tid':r.tid, 'uid':r.uid,'time':r.time,'content':r.content}
         return dic
 
     @classmethod
