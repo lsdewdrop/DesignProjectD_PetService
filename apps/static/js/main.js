@@ -123,5 +123,8 @@ function Btn_write_post()
     document.getElementById('checkbox_wrap').style.display = 'none';
     document.getElementById('main').style.display = 'none';
     document.getElementById('write_post').style.display = 'inline';
-    getPetList()
+    getPetList();
 }
+
+
+

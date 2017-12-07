@@ -12,19 +12,76 @@
                 alert("이벤트 실행됨");
             });
         });
+        function deleteMyCookie()
+        {
+            var expireDate = new Date();
+            var cookieName="pet_session";
+            expireDate.setDate( expireDate.getDate() - 1 );
+            document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString() + "; path=/";
+            location.reload('/')
+        }
+        function NoDisplayAnswer()
+        {
+            if (document.getElementById('view_report')!=null)
+            {
+                document.getElementById('view_report').style.display = 'none';
+            }
+
+        }
+        function viewReport()
+        {
+            NoDisplayAnswer();
+           $.ajax
+           ({
+              type: 'GET',
+              headers:
+              {
+                 'Accept': 'application/json',
+                 'Content-Type': 'application/json'
+              },
+              url: "/report_all_list",
+              async: false,
+
+              success: function(result){
+                table=result.results;
+                all_html=""
+                for(var i=0; i<table.length; i++)
+                {
+                    all_html+="<tr>";
+                    all_html+="<th scope=\"row\" align=\"center\">"+table[i].id+"</th>";
+                    all_html+="<td><a href=\"/view_r/" + table[i].id + "\">" + table[i].title + "</a></td>";
+                    all_html+="<td>"+table[i].uid+"</td>";
+                    all_html+="<td>"+table[i].time+"</td>";
+                    all_html+="</tr>";
+                }
+
+
+                $("#all_report_list").html(all_html);
+
+              },
+              statusCode:{
+                 409:function(msg){
+                    alert(msg.responseText);
+                 },
+                 400:function(msg){
+                    alert(msg.responseText);
+                 }
+              }
+           });
+        }
 </script>
 </head>
 <body>
 <div class="container">
 	<h1><span class="glyphicon glyphicon-wrench"></span> 관리자</h1>
 	<ul id="myTab" class="nav nav-tabs" role="tablist">
-	  <li role="presentation" class="active"><a data-target="#tab1" id="tab1-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">회원삭제</a></li>
-	  <li role="presentation" class=""><a data-target="#tab2" role="tab" id="tab2-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">글삭제</a></li>
-    <li role="presentation" class=""><a data-target="#tab3" role="tab" id="tab3-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">문의보기</a></li>
-    <li role="presentation" class=""><a data-target="#tab4" role="tab" id="tab4-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">로그아웃</a></li>
+	  <li role="presentation" class=""><a data-target="#tab1" id="tab1-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" onclick="NoDisplayAnswer()">회원삭제</a></li>
+	  <li role="presentation" class=""><a data-target="#tab2" role="tab" id="tab2-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" onclick="NoDisplayAnswer()">글삭제</a></li>
+    <li role="presentation" class=""><a data-target="#tab3" role="tab" id="tab3-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" onclick="viewReport()">문의보기</a></li>
+    <li role="presentation" class=""><a data-target="#tab4" role="tab" id="tab4-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" onclick="deleteMyCookie()">로그아웃</a></li>
 	</ul>
-	<div id="myTabContent" class="tab-content">
-	  <div role="tabpanel" class="tab-pane fade active in" id="tab1" aria-labelledby="tab1-tab">
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade" id="tab1" aria-labelledby="tab1-tab">
       <form action="/deluser" method="get" >
           <div class="form-group">
               <label>삭제할 회원</label>
@@ -38,7 +95,7 @@
 		  {% endif %}
       </form>
 	  </div>
-	  <div role="tabpanel" class="tab-pane fade" id="tab2" aria-labelledby="tab2-tab">
+        <div role="tabpanel" class="tab-pane fade" id="tab2" aria-labelledby="tab2-tab">
       <form action="/delpost" method="get" >
           <div class="form-group">
               <label>글 번호</label>
@@ -52,72 +109,51 @@
 		  {% endif %}
       </form>
 	  </div>
-    <div role="tabpanel" class="tab-pane fade" id="tab3" aria-labelledby="tab3-tab">
+        <div role="tabpanel" class="tab-pane fade" id="tab3" aria-labelledby="tab3-tab">
       <table class ="table table-striped">
 				<thead>
 					<tr>
-						<th width="10%">번호</th>
-						<th width="50%">제목</th>
-						<th width="10%">작성자</th>
-						<th width="20%">날짜</th>
-						<th width="10%">조회수</th>
+						<th width="5%">no.</th>
+                        <th width="15%">제목</th>
+                        <th width="10%">작성자</th>
+                        <th width="20%">시간</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>제목제목제목제목</td>
-						<td>작성자1</td>
-						<td>2017.10.13</td>
-						<td>2</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>제목제목</td>
-						<td>작성자1</td>
-						<td>2017.10.13</td>
-						<td>2</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>제목제목</td>
-						<td>작성자1</td>
-						<td>2017.10.13</td>
-						<td>2</td>
-					</tr>
+				<tbody id="all_report_list">
+
 				</tbody>
 			</table>
-      <form action="/report" method="get" class = "navbar-form pull-right">
-					<div class="form-group">
-						<select name = "searchopt" class ="form-control" style="width:100px;height:33px">
-							<option>작성자</option>
-							<option>작성자</option>
-							<option>작성자</option>
-						</select>
-							<input type="text" class="form-control" name="email" style="width:300px;height:33px">
-					</div>
-					<button type="submit" class="btn btn-success btn-sm">검색</button>
-			</form>
 			<br>
 			<br>
 			<br>
 			<div class = "text-center">
-				<ul class = "pagination">
-					<li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-				</ul>
 			</div>
     </div>
-    <div role="tabpanel" class="tab-pane fade" id="tab4" aria-labelledby="tab4-tab">
-      <form action="/logout" method="get" >
-        <br>
-        <button type="submit" class="btn btn-success btn-sm">로그아웃</button>
-      </form>
+        <div role="tabpanel" class="tab-pane fade" id="tab4" aria-labelledby="tab4-tab">
+
    </div>
 	</div>
+    {%if datas[0] == 0%}
+    <div class="view_report" style="display:none">
+    {%else%}
+    <div class="view_report" id="view_report">
+        {%endif%}
+        <form action="/answer/{{datas[0]}}" method="post">
+            제목 : {{ datas[1] }}
+            <br><br>
+            종류 : {{ datas[2] }}
+            <br><br>
+            내용 : {{ datas[5] }}
+            <br><br>
+            글쓴이 : {{ datas[3] }}
+            <br><br>
+            답변 : <textarea name="answer" id="answer" cols="82" rows="10" maxlength="1024" ></textarea>
+            <br><br>
+            시간 : {{ datas[4] }}
+            <br><br>
+            <button type="submit" class="btn btn-success btn-lg" style="margin-bottom:50px;">답변</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

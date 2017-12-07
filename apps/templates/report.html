@@ -7,8 +7,7 @@
 		<title>문의글 보기</title>
 
         <script type="text/javascript" src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-		<script type="text/javascript" src="../static/js/main.js" charset="UTF-8"></script>
-        <script type="text/javascript" src="../static/js/post.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="../static/js/mypage.js" charset="UTF-8"></script>
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     	<style>
@@ -55,28 +54,15 @@
 			{
 			    display:none;
 			}
-			#post_img
-			{
-			    width: 300px;
-
-			}
 			#viewButton
 			{
 			    padding-bottom:200px;
-			    display:none;
+
 			}
 			#contents
 			{
 			    padding-top:50px;
-			    display:none;
-			}
-			#register
-			{
-			    display:none;
-			}
-			#modify_post
-			{
-			    display:none;
+
 			}
 
 
@@ -96,77 +82,24 @@
                     <li role="presentation"><a href="#" onclick="deleteMyCookie()">로그아웃</a></li>
                 </ul>
             </div>
-            <div id="register" align="left">
-                <form action="/regist_pet/{{datas[0].no}}">
-                    <button class="btn btn-success btn-lg" type="submit">입양신청</button>
-                </form>
-            </div>
 			<div id="contents">
-                글 제목 : {{ datas[0].title }}
+                제목 : {{ data[1] }}
                 <br><br>
-                내용 : {{ datas[0].content }}
+                종류 : {{ data[2] }}
                 <br><br>
-                글쓴이 : {{ datas[0].auth_id }}
+                내용 : {{ data[5] }}
                 <br><br>
-                종류 : {{ datas[2] }}
+                글쓴이 : {{ data[3] }}
                 <br><br>
-                품종 : {{ datas[3] }}
+                답변 : {{data[6]}}
                 <br><br>
-                {%if datas[1].gender|int == 1%}
-                성별 : 여
-                {%else%}
-                성별 : 남
-                {%endif%}
+                시간 : {{ data[4] }}
                 <br><br>
-                {%if datas[1].is_Neutralization|int == 1%}
-                중성화 여부 : O
-                {%else%}
-                중성화 여부 : X
-                {%endif%}
-                <br><br>
-                가격 : {{ datas[1].price }}
-                <br><br>
-                무게 : {{ datas[1].weight }}
-                <br><br>
-                키 : {{ datas[1].height }}
-                <br><br>
-                건강 상태 : {{ datas[1].helth }}
-                <br><br>
-                <img src="../static/picture/{{datas[4]}}" id="post_img">
-                <br><br>
-                시간 : {{ datas[0].time }}
-
-
             </div>
             <br><br>
             <div id="viewButton" align="right">
-                <button class="btn btn-success btn" type="submit" onclick="modify_page()">수정</button>
-                <form action="/delete_post/{{datas[0].no}}">
-                    <button class="btn btn-success btn" type="submit">삭제</button>
-                </form>
-                <form action="/">
+                <form action="/mypage">
                     <button class="btn btn-success btn" type="submit">목록보기</button>
-                </form>
-            </div>
-            <div id="modify_post">
-                <form action="/modify_post/{{datas[0].no}}" method="post">
-                    <div class="form-group">
-                        <div class="label_form"  style="float:left;padding-right:30px;">
-                            <label>글 제목</label>
-                        </div>
-                        <div class="contents_form">
-                            <input type="text" class="form-control" id="post_title" name="post_title" style="width:680px;float:clear;">&nbsp;&nbsp;
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="label_form" style="float:left;padding-right:30px;">
-                            <label>글 내용</label>
-                        </div>
-                        <div class="contents_form">
-                            <textarea name="post_content" id="post_content" cols="82" rows="10" maxlength="1024" ></textarea>
-                        </div>
-                    </div>
-                    <button class="btn btn-success btn" type="submit">수정</button>
                 </form>
             </div>
 		</div>

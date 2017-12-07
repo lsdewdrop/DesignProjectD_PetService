@@ -19,13 +19,6 @@ def set_token(time, user):
 
     return response
 
-def check_admin():
-    #session1=request.cookies['pet_session']
-    #user = c.getUser_by_token(session1)
-    #if(user.id=="s"):
-    return True
-    #else:
-     #   return False
 
 
 def check_token():
