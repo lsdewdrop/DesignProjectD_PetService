@@ -213,9 +213,12 @@ class Controller():
         post_and_pet=list()
         post_and_pet.append(post)
         post_and_pet.append(pet)
-        post_and_pet.append(picture[0])
+
         post_and_pet.append(kinds[0])
         post_and_pet.append(kinds_kinds[0])
+
+        if (picture is not None):
+            post_and_pet.append(picture[0])
 
         return post_and_pet
 
@@ -432,3 +435,27 @@ class Controller():
             post_list.append(temp)
 
         return post_list
+
+
+    def modify_my_post(self,num,data):
+        self.user=self.getUser_by_token()
+        query="select auth_id from pet_posts where no=%d"
+        auth_id=self.db.select_one(query%num)[0]
+        if auth_id == self.user.id:
+            query="update pet_posts set title='%s', content='%s' where no=%d"
+            self.db.insert(query%(data['post_title'],data['post_content'],num))
+            return 1
+        else:
+            return -1
+
+    def delete_my_post(self,num):
+        self.user=self.getUser_by_token()
+        query="select auth_id from pet_posts where no=%d"
+        auth_id=self.db.select_one(query%num)[0]
+        if auth_id == self.user.id:
+            query="delete from pet_posts where no=%d"
+            self.db.insert(query%num)
+            return 1
+        else:
+            return -1
+
